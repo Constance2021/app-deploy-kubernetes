@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo App</title>
+</head>
+
+<body>
+    <h1>ToDo List</h1>
+    <ul id="task-list"></ul>
+    <input type="text" id="new-task" placeholder="New task">
+    <button onclick="addTask()">Add Task</button>
+
+    <script>
+        async function fetchTasks() {
+            const response = await fetch('http://192.168.49.2/tasks');
+            const tasks = await response.json();
+            const taskList = document.getElementById('task-list');
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.textContent = task[1];
+                taskList.appendChild(li);
+            });
+        }
+
+        async function addTask() {
+            const newTask = document.getElementById('new-task').value;
+            await fetch('http://192.168.49.2/tasks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: newTask })
+            });
+            fetchTasks();
+        }
+
+        fetchTasks();
+
+    </script>
+</body>
+
+</html>
