@@ -5,8 +5,6 @@ import sqlite3
 app = Flask(__name__)
 CORS(app)  # Autoriser CORS pour toutes les routes
 
-# Reste de votre code...
-
 # Initialisation de la base de données
 def init_db():
     conn = sqlite3.connect('database.db')
